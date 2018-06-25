@@ -1,0 +1,20 @@
+@model IEnumerable<BookSearcher.DTOs.BookDto>
+
+@{
+    ViewData["Title"] = "Search results";
+}
+
+<h2>Search results</h2>
+
+<div>
+    @foreach (var item in Model)
+    {
+        if (!string.IsNullOrWhiteSpace(item.Url))
+        {
+            <h4><a href="@item.Url">@item.Title</a> for @item.Price</h4>
+        }
+    }
+</div>
+<div>
+    <a asp-action="Index">Back to search</a>
+</div>
