@@ -16,7 +16,7 @@ namespace BookSearcher.Repositories
                                 titleEnd: "\" data-max-rows",
                                 priceStart: "<spanclass=\"a-offscreen\">",
                                 priceEnd: "</span>",
-                                urlStart: "class=\"a-link-normala-text-normal\"href=\"https://",
+                                urlStart: "class=\"a-link-normala-text-normal\"href=\"",
                                 urlEnd: "\">"),
             SearchParams.Create(baseAddress: "www.apress.com/",
                                 request: "us/book/",
@@ -25,7 +25,7 @@ namespace BookSearcher.Repositories
                                 titleEnd: "|",
                                 priceStart: "<spanclass=\"cover-type\">Softcover</span><spanclass=\"price-box\"><spanclass=\"price\">",
                                 priceEnd: "</span></span>",
-                                urlStart: "<linkrel=\"canonical\"href=\"//",
+                                urlStart: "<linkrel=\"canonical\"",
                                 urlEnd: "\">"),
         };
         

@@ -29,10 +29,15 @@ namespace BookSearcher.Services
         public async Task<IEnumerable<BookDto>> Search(Book book)
         {
             var bookUrls = new List<BookDto>();
+            var isbn = book.ISBN.Replace("-", "").Replace(" ", "");;
 
-            foreach(var repository in await UrlBookRepository.GetAll())
+            foreach(var parameters in await UrlBookRepository.GetAll())
             {
-                bookUrls.Add(await GetBookDto(repository, book.ISBN));
+                var bookDto = await GetBookDto(parameters, isbn);
+                if(bookDto is null)
+                    continue;
+
+                bookUrls.Add(bookDto);
             }
 
             return bookUrls;
@@ -51,6 +56,9 @@ namespace BookSearcher.Services
             };
 
             var result = await client.SendAsync(request);
+            if(!result.IsSuccessStatusCode)
+                return null;
+                
             var content = await result.Content.ReadAsStringAsync();
             
             var title = content.Match(parameters.TitleStart, parameters.TitleEnd).Trim().Replace(" -", ":");
