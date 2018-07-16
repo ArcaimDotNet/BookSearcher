@@ -47,15 +47,19 @@ namespace BookSearcher.Services
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri("https://" + parameters.BaseAddress);
-
-            var request = new HttpRequestMessage(parameters.HttpMethod, parameters.Request + isbn)
-            {
-                Content = new StringContent(content: "{\"name\":\"Json Webapi\",\"age\":33}",
+            var stringContent = new StringContent(content: "{\"name\":\"Json Webapi\",\"age\":33}",
                                             encoding: Encoding.UTF8,
-                                            mediaType:"application/json")
-            };
+                                            mediaType:"application/json");
+
+            var request = new HttpRequestMessage(parameters.HttpMethod, parameters.Request + isbn) { Content = stringContent };
 
             var result = await client.SendAsync(request);
+            if (!result.IsSuccessStatusCode && result.RequestMessage.RequestUri.AbsoluteUri != client.BaseAddress + "/" + parameters.Request + isbn)
+            {
+                result = await client.SendAsync(new HttpRequestMessage(parameters.HttpMethod, result.RequestMessage.RequestUri.PathAndQuery)
+                { Content = stringContent });
+            }
+
             if(!result.IsSuccessStatusCode)
                 return null;
                 
@@ -64,9 +68,13 @@ namespace BookSearcher.Services
             var title = content.Match(parameters.TitleStart, parameters.TitleEnd).Trim().Replace(" -", ":");
             content = content.Replace(" ", "").Replace("\n", "");
             var price = content.Match(parameters.PriceStart, parameters.PriceEnd);
-            var url = content.Match(parameters.UrlStart, parameters.UrlEnd);
+            var url = result.RequestMessage.RequestUri.AbsoluteUri;
+            var websiteName = parameters.BaseAddress.Match("www.", ".com/");
 
-            return new BookDto { Title = title, Price = price, Url = url };
+            if (title is null || price is null || url is null)
+                return null;
+
+            return new BookDto { WebsiteName = websiteName, Title = title, Price = price, Url = url };
         }
     }
 }

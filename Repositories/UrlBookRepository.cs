@@ -15,18 +15,14 @@ namespace BookSearcher.Repositories
                                 titleStart: "<h2 data-attribute=\"",
                                 titleEnd: "\" data-max-rows",
                                 priceStart: "<spanclass=\"a-offscreen\">",
-                                priceEnd: "</span>",
-                                urlStart: "class=\"a-link-normala-text-normal\"href=\"",
-                                urlEnd: "\">"),
+                                priceEnd: "</span>"),
             SearchParams.Create(baseAddress: "www.apress.com/",
                                 request: "us/book/",
                                 httpMethod: HttpMethod.Get,
                                 titleStart: "<meta property=\"og:title\" content=\"",
                                 titleEnd: "|",
                                 priceStart: "<spanclass=\"cover-type\">Softcover</span><spanclass=\"price-box\"><spanclass=\"price\">",
-                                priceEnd: "</span></span>",
-                                urlStart: "<linkrel=\"canonical\"",
-                                urlEnd: "\">"),
+                                priceEnd: "</span></span>")
         };
         
         public async Task<IEnumerable<SearchParams>> GetAll() => await Task.FromResult(_params);

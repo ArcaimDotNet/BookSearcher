@@ -18,7 +18,7 @@ namespace BookSearcher.Domain
         {
         }
 
-        protected SearchParams(string baseAddress, string request, HttpMethod httpMethod, string titleStart, string titleEnd, string priceStart, string priceEnd, string urlStart, string urlEnd)
+        protected SearchParams(string baseAddress, string request, HttpMethod httpMethod, string titleStart, string titleEnd, string priceStart, string priceEnd)
         {
             SetBaseAddress(baseAddress);
             SetRequest(request);
@@ -27,12 +27,10 @@ namespace BookSearcher.Domain
             SetTitleEnd(titleEnd);
             SetPriceStart(priceStart);
             SetPriceEnd(priceEnd);
-            SetUrlStart(urlStart);
-            SetUrlEnd(urlEnd);
         }
 
-        public static SearchParams Create(string baseAddress, string request, HttpMethod httpMethod, string titleStart, string titleEnd, string priceStart, string priceEnd, string urlStart, string urlEnd)
-            => new SearchParams(baseAddress, request, httpMethod, titleStart, titleEnd, priceStart, priceEnd, urlStart, urlEnd);
+        public static SearchParams Create(string baseAddress, string request, HttpMethod httpMethod, string titleStart, string titleEnd, string priceStart, string priceEnd)
+            => new SearchParams(baseAddress, request, httpMethod, titleStart, titleEnd, priceStart, priceEnd);
 
         public void SetBaseAddress(string baseAddress) => BaseAddress = baseAddress; // ToDo: Add validation, Regex?
         public void SetRequest(string request) => Request = request;
@@ -41,7 +39,5 @@ namespace BookSearcher.Domain
         public void SetTitleEnd(string titleEnd) => TitleEnd = titleEnd;
         public void SetPriceStart(string priceStart) => PriceStart = priceStart;
         public void SetPriceEnd(string priceEnd) => PriceEnd = priceEnd;
-        public void SetUrlStart(string urlStart) => UrlStart = urlStart;
-        public void SetUrlEnd(string urlEnd) => UrlEnd = urlEnd;
     }
 }
